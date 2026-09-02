@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLineEdit" name="lineEdit_gpxPathSelect">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>150</y>
+      <width>421</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>C:/Users/Eichler536/OneDrive - ROPID/qgis projekty/OCC polohový log 20260901/1_Sept_2026_08_20_47.gpx</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_gpxPathSelect">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>150</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>select GPX</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_dbPathSelect">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>260</y>
+      <width>421</width>
+      <height>24</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_dbPathSelect">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>260</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>select DB</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_zpracovat">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>150</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Zpracovat</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_selectedTime">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>360</y>
+      <width>391</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>2026-09-01T09:25:41.235</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_findCoordinates">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>360</y>
+      <width>191</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>find coordinates</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
