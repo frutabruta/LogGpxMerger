@@ -4,6 +4,8 @@
 #include <QDomDocument>
 #include <QFileDialog>
 
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -44,6 +46,24 @@ void MainWindow::on_pushButton_zpracovat_clicked()
         QVector<GpxObject> data=parseGpx.parseXml(xmlko);
     }*/
 }
+
+QString MainWindow::openDbSelectDialogue(QString cesta)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Otevři db"), cesta,
+                                                    tr("Databáze (*.sqlite);;All Files (*)"));
+    return fileName;
+}
+
+
+
+void MainWindow::on_pushButton_dbPathSelect_clicked()
+{
+    ui->lineEdit_dbPathSelect->setText(openDbSelectDialogue(ui->lineEdit_dbPathSelect->text()));
+}
+
+
 
 
 void MainWindow::on_pushButton_findCoordinates_clicked()
@@ -96,10 +116,9 @@ bool MainWindow::findBeforeAfter(QDateTime &dateToFind, GpxObject &objBefore, Gp
     int iterator=0;
     while(!selected)
     {
-
         if(iterator>=coordinatesList.count())
         {
-            qDebug()<<"Time is after specified range!";
+            qDebug()<<"Time "<<dateToFind.toLocalTime()<<" is after specified range "<<coordinatesList.value(0).time.toLocalTime()<<" "<<coordinatesList.value(coordinatesList.count()-1).time.toLocalTime();
             return false;
         }
         else
@@ -126,6 +145,7 @@ bool MainWindow::findBeforeAfter(QDateTime &dateToFind, GpxObject &objBefore, Gp
             else
             {
                 iterator++;
+                //qDebug()<<"iterator: "<<iterator;
             }
         }
 
@@ -137,4 +157,75 @@ bool MainWindow::findBeforeAfter(QDateTime &dateToFind, GpxObject &objBefore, Gp
 }
 
 
+void MainWindow::findDbEntries()
+{
+    qDebug()<< Q_FUNC_INFO;
+
+    sqliteBase.dbFilePath=ui->lineEdit_dbPathSelect->text();
+
+    sqliteBase.initialize();
+
+    QString queryString= R"(
+        SELECT timestamp, vehicleState,CurrentStopIndex FROM messages;
+    )";
+
+    /*  QSqlQuery query =  prepareAndExec(queryString, {
+                                                      {":trip_line_c", trip.line.c},
+                                                      {":trip_idRopid",trip.idRopid},
+                                                      {":kj",kj}
+                                                  }); */
+
+    QString insertQueryString= R"(
+    UPDATE messages
+    SET lat = :lat, lng = :lng
+    WHERE timestamp=:timestamp
+    )";
+
+    QSqlQuery query =  sqliteBase.prepareAndExec(queryString);
+
+    //  qDebug()<<queryString;
+
+
+    while (query.next())
+    {
+        if (query.value(0).toString()!="")
+        {
+            QString timeStampString=query.value(query.record().indexOf("timestamp")).toString();
+            QDateTime timeStamp=QDateTime::fromString(timeStampString,Qt::ISODateWithMs);
+            QString vehicleState=query.value(query.record().indexOf("vehicleState")).toString();
+            qDebug()<<timeStamp<<" "<<vehicleState ;
+
+            GpxObject objBefore;
+            GpxObject objAfter;
+
+            if(findBeforeAfter(timeStamp,objBefore,objAfter))
+            {
+                GpxObject interpolated=createAverageGpxObject(timeStamp,objBefore,objAfter);
+
+                sqliteBase.prepareAndExec(insertQueryString,{
+                                                                 {":timestamp", timeStampString},
+                                                                 {":lat",interpolated.lat},
+                                                                 {":lng",interpolated.lon}
+                                                             });
+
+            }
+            else
+            {
+                qDebug()<<"interpolation failed for "<<timeStampString;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+void MainWindow::on_pushButton_dbStartQuery_clicked()
+{
+    findDbEntries();
+}
 
