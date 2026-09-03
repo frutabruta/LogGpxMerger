@@ -1,6 +1,7 @@
 QT       += core gui
 QT       += xml
 QT       += sql
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
@@ -13,12 +14,14 @@ SOURCES += \
     XmlRopidImportStream/sqlitebase.cpp \
     main.cpp \
     mainwindow.cpp \
-    parsegpx.cpp
+    parsegpx.cpp \
+    xmljrtogeojson.cpp
 
 HEADERS += \
     XmlRopidImportStream/sqlitebase.h \
     mainwindow.h \
-    parsegpx.h
+    parsegpx.h \
+    xmljrtogeojson.h
 
 FORMS += \
     mainwindow.ui

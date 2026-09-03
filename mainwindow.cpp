@@ -57,6 +57,26 @@ QString MainWindow::openDbSelectDialogue(QString cesta)
 }
 
 
+QString MainWindow::openXmlJrSelectDialogue(QString cesta)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Otevři JŘ"), cesta,
+                                                    tr("XML JŘ (*.xml);;All Files (*)"));
+    return fileName;
+}
+
+QString MainWindow::openGeoJsonSelectDialogue(QString cesta)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Otevři Json"), cesta,
+                                                    tr("GeoJSON (*.geojson);;All Files (*)"));
+    return fileName;
+}
+
+
+
 
 void MainWindow::on_pushButton_dbPathSelect_clicked()
 {
@@ -227,5 +247,25 @@ void MainWindow::findDbEntries()
 void MainWindow::on_pushButton_dbStartQuery_clicked()
 {
     findDbEntries();
+}
+
+
+void MainWindow::on_pushButton_geoJson_start_clicked()
+{
+    XmlJrToGeoJson xmlJrToGeoJson;
+    xmlJrToGeoJson.convertXmlToGeoJson(ui->lineEdit_jrXmlPathSelect->text(),ui->lineEdit_geoJsonPathSelect->text());
+
+}
+
+
+void MainWindow::on_pushButton_selectJrXml_clicked()
+{
+    ui->lineEdit_jrXmlPathSelect->setText(openXmlJrSelectDialogue(ui->lineEdit_jrXmlPathSelect->text()));
+}
+
+
+void MainWindow::on_pushButton_selectGeoJSON_clicked()
+{
+    ui->lineEdit_geoJsonPathSelect->setText(openGeoJsonSelectDialogue(ui->lineEdit_geoJsonPathSelect->text()));
 }
 

@@ -5,6 +5,7 @@
 #include "parsegpx.h"
 
 #include "XmlRopidImportStream/sqlitebase.h"
+#include "xmljrtogeojson.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -31,6 +32,12 @@ private slots:
 
     void on_pushButton_dbStartQuery_clicked();
 
+    void on_pushButton_geoJson_start_clicked();
+
+    void on_pushButton_selectJrXml_clicked();
+
+    void on_pushButton_selectGeoJSON_clicked();
+
 private:
     Ui::MainWindow *ui;
     ParseGpx parseGpx;
@@ -44,5 +51,7 @@ private:
 
     void findDbEntries();
     QString openDbSelectDialogue(QString cesta);
+    QString openXmlJrSelectDialogue(QString cesta);
+    QString openGeoJsonSelectDialogue(QString cesta);
 };
 #endif // MAINWINDOW_H

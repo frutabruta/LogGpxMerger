@@ -14,110 +14,142 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLineEdit" name="lineEdit_gpxPathSelect">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>150</y>
-      <width>421</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>C:/Users/Eichler536/OneDrive - ROPID/qgis projekty/OCC polohový log 20260901/1_Sept_2026_09_07_31.gpx</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_gpxPathSelect">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>150</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>select GPX</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_dbPathSelect">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>260</y>
-      <width>421</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>C:/Users/Eichler536/OneDrive - ROPID/qgis projekty/OCC polohový log 20260901/data_druha_jizda.sqlite</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_dbPathSelect">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>260</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>select DB</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_zpracovat">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>150</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Zpracovat</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_selectedTime">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>360</y>
-      <width>391</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>2026-09-01T09:25:41.235</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_findCoordinates">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>360</y>
-      <width>191</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>find coordinates</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_dbStartQuery">
-    <property name="geometry">
-     <rect>
-      <x>550</x>
-      <y>430</y>
-      <width>111</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>DB start query</string>
-    </property>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="1" column="0">
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>SQlite</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLineEdit" name="lineEdit_dbPathSelect">
+         <property name="text">
+          <string>C:/Users/Eichler536/OneDrive - ROPID/qgis projekty/OCC polohový log 20260901/data_druha_jizda.sqlite</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_dbStartQuery">
+         <property name="text">
+          <string>DB start query</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_dbPathSelect">
+         <property name="text">
+          <string>select DB</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>GPX</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLineEdit" name="lineEdit_gpxPathSelect">
+         <property name="text">
+          <string>C:/Users/Eichler536/OneDrive - ROPID/qgis projekty/OCC polohový log 20260901/1_Sept_2026_09_07_31.gpx</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_zpracovat">
+         <property name="text">
+          <string>Zpracovat</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_gpxPathSelect">
+         <property name="text">
+          <string>select GPX</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="title">
+       <string>Ropid XML</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="2" column="2">
+        <widget class="QPushButton" name="pushButton_selectGeoJSON">
+         <property name="text">
+          <string>Select GeoJSON</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="pushButton_selectJrXml">
+         <property name="text">
+          <string>select XML JŘ</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLineEdit" name="lineEdit_geoJsonPathSelect">
+         <property name="text">
+          <string>C:/Users/Eichler536/Downloads/testGeoJSon.geojson</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLineEdit" name="lineEdit_jrXmlPathSelect">
+         <property name="text">
+          <string>C:/Users/Eichler536/OneDrive - ROPID/XML test/TestovaciXmlProDodavatele/_XML_test-1540_v.2026-08-24_(d-8).xml</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>GeoJSON path</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="pushButton_geoJson_start">
+         <property name="text">
+          <string>Start conversion</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="title">
+       <string>Jedny souřadnice</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="3">
+        <widget class="QPushButton" name="pushButton_findCoordinates">
+         <property name="text">
+          <string>find coordinates</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLineEdit" name="lineEdit_selectedTime">
+         <property name="text">
+          <string>2026-09-01T09:25:41.235</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
