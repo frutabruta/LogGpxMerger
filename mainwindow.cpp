@@ -3,7 +3,7 @@
 
 #include <QDomDocument>
 #include <QFileDialog>
-
+#include <QMessageBox>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -38,13 +38,20 @@ QString MainWindow::openXmlSelectDialogue(QString cesta)
 
 void MainWindow::on_pushButton_zpracovat_clicked()
 {
-    QDomDocument xmlko=parseGpx.openFile(ui->lineEdit_gpxPathSelect->text());
-    coordinatesList=parseGpx.parseXml(xmlko);
+    fillCoordinatesList();
+
+    popUpMessage("GPX positions parsed");
 
     /*if(xmlko.firstChild().isElement())
     {
         QVector<GpxObject> data=parseGpx.parseXml(xmlko);
     }*/
+}
+
+void MainWindow::fillCoordinatesList()
+{
+    QDomDocument xmlko=parseGpx.openFile(ui->lineEdit_gpxPathSelect->text());
+    coordinatesList=parseGpx.parseXml(xmlko);
 }
 
 QString MainWindow::openDbSelectDialogue(QString cesta)
@@ -88,6 +95,8 @@ void MainWindow::on_pushButton_dbPathSelect_clicked()
 
 void MainWindow::on_pushButton_findCoordinates_clicked()
 {
+    fillCoordinatesList();
+
     QDateTime selectedTime=QDateTime::fromString(ui->lineEdit_selectedTime->text(),Qt::ISODateWithMs);
 
     GpxObject objBefore;
@@ -101,12 +110,15 @@ void MainWindow::on_pushButton_findCoordinates_clicked()
 
 
 
+        ui->label_coordinatesResult->setText("lat: "+QString::number(interpolated.lat)+" lon:  "+QString::number(interpolated.lon));
 
         qDebug()<<"lat: "<<interpolated.lat<<" lon:  "<<interpolated.lon;
     }
     else
     {
+        popUpMessage("not found");
         qDebug()<<"looking failed";
+        ui->label_coordinatesResult->setText("not found");
     }
 
 
@@ -116,9 +128,25 @@ void MainWindow::on_pushButton_findCoordinates_clicked()
 GpxObject MainWindow::createAverageGpxObject(QDateTime &dateToFind, GpxObject &objBefore, GpxObject &objAfter)
 {
     GpxObject output;
+
+    /*
     output.ele=(objBefore.ele+objAfter.ele)/2;
     output.lat=(objAfter.lat+objBefore.lat)/2;
     output.lon=(objAfter.lon+objBefore.lon)/2;
+    */
+
+    float deltaBeforeAfter=objBefore.time.secsTo(objAfter.time);
+    float deltaBeforeSelected=objBefore.time.secsTo(dateToFind);
+    double coeficient=deltaBeforeSelected/deltaBeforeAfter;
+
+    double deltaLat=objAfter.lat-objBefore.lat;
+    double deltaLng=objAfter.lon-objBefore.lon;
+    float deltaEle=objAfter.ele-objAfter.ele;
+
+    output.lat=objBefore.lat+deltaLat*coeficient;
+    output.lon=objBefore.lon+deltaLng*coeficient;
+    output.ele=objBefore.ele+deltaEle*coeficient;
+
     return output;
 }
 
@@ -180,6 +208,7 @@ bool MainWindow::findBeforeAfter(QDateTime &dateToFind, GpxObject &objBefore, Gp
 void MainWindow::findDbEntries()
 {
     qDebug()<< Q_FUNC_INFO;
+    fillCoordinatesList();
 
     sqliteBase.dbFilePath=ui->lineEdit_dbPathSelect->text();
 
@@ -247,6 +276,7 @@ void MainWindow::findDbEntries()
 void MainWindow::on_pushButton_dbStartQuery_clicked()
 {
     findDbEntries();
+    popUpMessage("positions inserted to DB");
 }
 
 
@@ -254,6 +284,7 @@ void MainWindow::on_pushButton_geoJson_start_clicked()
 {
     XmlJrToGeoJson xmlJrToGeoJson;
     xmlJrToGeoJson.convertXmlToGeoJson(ui->lineEdit_jrXmlPathSelect->text(),ui->lineEdit_geoJsonPathSelect->text());
+    popUpMessage("export to GeoJSON done");
 
 }
 
@@ -269,3 +300,17 @@ void MainWindow::on_pushButton_selectGeoJSON_clicked()
     ui->lineEdit_geoJsonPathSelect->setText(openGeoJsonSelectDialogue(ui->lineEdit_geoJsonPathSelect->text()));
 }
 
+
+
+void MainWindow::popUpMessage(QString messageText)
+{
+
+    QMessageBox msgBox;
+    msgBox.setText(messageText);
+    msgBox.exec();
+
+
+    statusBar()->showMessage(
+        tr("Data imported successfully."),
+        5000); // 5 seconds
+}

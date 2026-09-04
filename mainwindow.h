@@ -53,5 +53,7 @@ private:
     QString openDbSelectDialogue(QString cesta);
     QString openXmlJrSelectDialogue(QString cesta);
     QString openGeoJsonSelectDialogue(QString cesta);
+    void popUpMessage(QString messageText);
+    void fillCoordinatesList();
 };
 #endif // MAINWINDOW_H
